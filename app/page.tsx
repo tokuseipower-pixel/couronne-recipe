@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQA3tul-PXLKjH3w0gyreesT2pP6G79CF9W94iwXiOz72ph_gHgU-oDgDgm-WtesE26CpWyhhXHUWv7/pub?gid=1632662789&single=true&output=csv";
 
 // CSVを正確に読み解くツール
-const parseCSV = (csv) => {
+const parseCSV = (csv: string) => {
   const rows = [];
   let row = [];
   let currentString = "";
