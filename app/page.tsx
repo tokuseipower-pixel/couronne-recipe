@@ -13,17 +13,11 @@ export default function RecipePage() {
         const text = await response.text();
         const json = JSON.parse(text.substring(47, text.length - 2));
 
-        // A列(項目)とB列(中身)をペアにするロジック
+        // A列(項目)が0番目、B列(内容)が1番目、C列(画像)が2番目
         const rows = json.table.rows.map((row: any) => ({
-          title: row.c[1]?.v || "名称未設定",
-          // ここでA列とB列の対応を詳細に作ります
-          sections: [
-            { label: "対象パン", value: row.c[2]?.v },
-            { label: "材料", value: row.c[4]?.v },
-            { label: "工程", value: row.c[5]?.v },
-            { label: "鉄則", value: row.c[7]?.v },
-          ],
-          imageUrl: row.c[3]?.v || row.c[6]?.v // 商品画像または工程画像
+          label: row.c[0]?.v || "",
+          value: row.c[1]?.v || "",
+          image: row.c[2]?.v || null
         }));
         setData(rows);
       } catch (e) { console.error(e); }
@@ -34,19 +28,17 @@ export default function RecipePage() {
   return (
     <main className="p-4 max-w-lg mx-auto bg-gray-50 min-h-screen">
       <h1 className="text-2xl font-bold mb-6 text-orange-900 border-b-2 border-orange-500 pb-2">クーロンヌ レシピ</h1>
-      <div className="space-y-6">
+      <div className="space-y-4">
         {data.map((item, index) => (
-          <div key={index} className="bg-white rounded-2xl shadow-lg p-6 border-t-4 border-orange-400">
-            <h2 className="text-2xl font-black text-orange-950 mb-4">{item.title}</h2>
-            {item.imageUrl && <img src={item.imageUrl} className="w-full h-48 object-cover rounded-xl mb-4" />}
-            
-            <div className="space-y-4">
-              {item.sections.map((sec: any, i: number) => (
-                <div key={i} className="border-b border-gray-100 pb-2">
-                  <span className="text-xs font-bold text-orange-600 uppercase tracking-wider">{sec.label}</span>
-                  <p className="text-gray-800 whitespace-pre-line mt-1">{sec.value || "未入力"}</p>
-                </div>
-              ))}
+          <div key={index} className="bg-white rounded-xl shadow-sm p-4 border-l-4 border-orange-400">
+            <div className="flex justify-between items-start">
+              <div className="flex-1">
+                <p className="text-xs font-bold text-orange-600 uppercase tracking-widest">{item.label}</p>
+                <p className="text-gray-800 whitespace-pre-line mt-1">{item.value}</p>
+              </div>
+              {item.image && (
+                <img src={item.image} className="w-20 h-20 object-cover rounded-lg ml-3" />
+              )}
             </div>
           </div>
         ))}
