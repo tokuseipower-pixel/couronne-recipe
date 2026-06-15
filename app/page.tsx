@@ -24,7 +24,6 @@ export default function RecipePage() {
           allItems.push({
             name: row.c[1]?.v || sheet,
             image: row.c[2]?.v || null,
-            // ここで詳細部分を「ラベル：内容」という形で整理します
             details: json.table.rows.slice(1).map((r: any) => ({
               label: r.c[0]?.v || "",
               value: r.c[1]?.v || ""
@@ -39,17 +38,17 @@ export default function RecipePage() {
 
   if (selected) {
     return (
-      <main className="p-4 max-w-lg mx-auto">
-        <button onClick={() => setSelected(null)} className="mb-4 text-orange-600 font-bold">← 一覧に戻る</button>
+      // 背景を白(bg-white)、文字を黒(text-black)に強制設定しました
+      <main className="p-4 max-w-lg mx-auto bg-white min-h-screen text-black">
+        <button onClick={() => setSelected(null)} className="mb-4 text-orange-600 font-bold text-lg">← 一覧に戻る</button>
         <h2 className="text-3xl font-black mb-4">{selected.name}</h2>
-        {selected.image && <img src={selected.image} className="w-full rounded-2xl mb-6 shadow-md" />}
+        {selected.image && <img src={selected.image} className="w-full rounded-2xl mb-6 shadow-md" alt="recipe" />}
         
-        {/* ここで情報を「ラベル」と「内容」で区切って表示します */}
-        <div className="space-y-4">
+        <div className="space-y-6">
           {selected.details.map((d: any, i: number) => (
-            <div key={i} className="border-b pb-2">
-              <div className="text-xs font-bold text-orange-600 uppercase">{d.label}</div>
-              <div className="text-gray-800 font-medium whitespace-pre-line">{d.value}</div>
+            <div key={i} className="border-b border-gray-300 pb-4">
+              <div className="text-xs font-bold text-orange-600 uppercase mb-1">{d.label}</div>
+              <div className="text-black font-semibold text-lg whitespace-pre-line leading-relaxed">{d.value}</div>
             </div>
           ))}
         </div>
@@ -58,13 +57,13 @@ export default function RecipePage() {
   }
 
   return (
-    <main className="p-4 max-w-lg mx-auto">
+    <main className="p-4 max-w-lg mx-auto bg-white min-h-screen text-black">
       <h1 className="text-2xl font-bold mb-6">クーロンヌ レシピ一覧</h1>
       <div className="grid gap-4">
         {items.map((item, i) => (
-          <button key={i} onClick={() => setSelected(item)} className="bg-white p-4 rounded-2xl shadow-md flex items-center gap-4 w-full text-left">
-            {item.image && <img src={item.image} className="w-20 h-20 object-cover rounded-lg" />}
-            <span className="font-bold text-lg">{item.name}</span>
+          <button key={i} onClick={() => setSelected(item)} className="bg-gray-100 p-4 rounded-2xl shadow-sm flex items-center gap-4 w-full text-left">
+            {item.image && <img src={item.image} className="w-20 h-20 object-cover rounded-lg" alt="item" />}
+            <span className="font-bold text-lg text-black">{item.name}</span>
           </button>
         ))}
       </div>
